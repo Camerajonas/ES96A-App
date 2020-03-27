@@ -22,7 +22,7 @@
         android:id="@+id/textView2"
         android:layout_width="174dp"
         android:layout_height="64dp"
-        android:text="TextView"
+        android:text="This is our avocado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/nav_host_fragment"
         app:layout_constraintStart_toStartOf="parent"
