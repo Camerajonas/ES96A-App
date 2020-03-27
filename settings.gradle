@@ -1,0 +1,2 @@
+rootProject.name='ES96A-App'
+include ':app'
