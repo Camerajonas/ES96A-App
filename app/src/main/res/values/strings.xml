@@ -2,14 +2,18 @@
     <string name="app_name">ES96A-App</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Savormetrics with Harvard Engineering</string>
+    <string name="nav_header_subtitle">1.800.409.8144</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_gallery">Analyze</string>
+    <string name="menu_slideshow">Help</string>
 
     <string name="home_second">Home Second</string>
+
+    <string name="instructions">Welcome to the home page. Here are instructions on how to use our beautiful app.</string>
+    <string name="analyze_page">Here is the analyze page. This is the page we will display the shelf estimates.</string>
+    <string name="help_page">Here is the help page. We can put fun stuff like FAQs here.</string>
 </resources>
