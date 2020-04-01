@@ -1,4 +1,4 @@
-package pkg.es96a_app.ui.gallery;
+package pkg.es96a_app.ui.history;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,19 +13,20 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import pkg.es96a_app.R;
+import pkg.es96a_app.ui.history.HistoryViewModel;
 
-public class GalleryFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private HistoryViewModel historyViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
+        historyViewModel =
+                ViewModelProviders.of(this).get(HistoryViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_history, container, false);
+        final TextView textView = root.findViewById(R.id.text_history);
         // I have commented this line because it was over writing the layout info
-        // textView.setText(getText(R.string.analyze_page));
+        // textView.setText(getText(R.string.help_page));
         return root;
     }
 }

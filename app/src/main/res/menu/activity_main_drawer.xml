@@ -9,12 +9,25 @@
             android:icon="@drawable/home_icon"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_analyze"
             android:icon="@drawable/analyze_icon"
-            android:title="@string/menu_gallery" />
+            android:title="@string/menu_analyze" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_history"
+            android:icon="@drawable/history_icon"
+            android:title="@string/menu_history" />
+        <item
+            android:id="@+id/nav_help"
             android:icon="@drawable/help_icon"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_help" />
     </group>
+
+    <item android:title="Actions">
+        <menu>
+            <item
+                android:id="@+id/nav_camera"
+                android:icon="@drawable/ic_menu_camera"
+                android:title="@string/menu_camera" />
+        </menu>
+    </item>
 </menu>

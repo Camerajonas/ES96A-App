@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.GalleryFragment">
+    tools:context=".ui.analyze.AnalyzeFragment">
 
     <Button
         android:id="@+id/analyze_button2"
@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_gallery"
+        app:layout_constraintTop_toBottomOf="@+id/text_analyze"
         app:layout_constraintVertical_bias="0.188" />
 
     <TextView
@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.339" />
 
     <TextView
-        android:id="@+id/text_gallery"
+        android:id="@+id/text_analyze"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
