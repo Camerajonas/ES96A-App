@@ -96,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/text_estimate2" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="3"
@@ -107,5 +107,16 @@
         app:layout_constraintStart_toEndOf="@+id/text_scanNumber"
         app:layout_constraintTop_toTopOf="@+id/text_scanNumber"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/text_view_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result"
+        app:layout_constraintBottom_toTopOf="@+id/text_sessionID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
