@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import pkg.es96a_app.CallbackFragment;
 import pkg.es96a_app.MainActivity;
 import pkg.es96a_app.R;
 
@@ -26,7 +25,6 @@ public class userLoginFragment extends Fragment implements View.OnClickListener 
 
     public Button loginButton, loginToRegister;
     public EditText loginUsername, loginPassword;
-    CallbackFragment callbackFragment;
 
     // when the page is opened / clicked, the xml file is inflated and the page shows up
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -61,23 +59,16 @@ public class userLoginFragment extends Fragment implements View.OnClickListener 
         // the switch statement is akin to an if-else-if statement with multiple cases
         switch(view.getId()) {
             case R.id.loginButton:
-//                Intent intent = new Intent(view.getContext(), MainActivity.class);
-//                view.getContext().startActivity(intent);
-//                break;
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                view.getContext().startActivity(intent);
+                break;
 
             // if the loginToRegister button is clicked, move to the registration page
-            case R.id.loginToRegister:
-                if (callbackFragment != null) {
-                    callbackFragment.changeFragment();
+//            case R.id.loginToRegister:
 //                    Class<userRegisterFragment> registerFrag = userRegisterFragment.class;
 //                    intent = new Intent(view.getContext(), registerFrag);
 //                    view.getContext().startActivity(intent);
 //                    break;
-                }
         }
-    }
-
-    public void setCallbackFragment(CallbackFragment callbackFragment) {
-        this.callbackFragment = callbackFragment;
     }
 }
