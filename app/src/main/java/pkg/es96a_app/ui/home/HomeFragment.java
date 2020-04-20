@@ -32,7 +32,7 @@ import pkg.es96a_app.R;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    public TextView mTextViewResult;
+    public TextView mTextViewResult; // instantiates the text view info
     public String name;
     public String names = "";
     public String newNames = "";
