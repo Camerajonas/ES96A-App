@@ -2,7 +2,8 @@
 
 package pkg.es96a_app;
 
-import android.app.Fragment;
+//import android.app.Fragment; android.app.Fragment is deprecated and won't let the app run
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class registerFragment extends Fragment implements View.OnClickListener {
 
         // the if statement gets the ID of the view to notify the OnClick method
         if (view.getId() == R.id.registerButton) {
-            Intent intent = new Intent(view.getContext(), MainActivity.class);
+            Intent intent = new Intent(view.getContext(), userLoginFragment.class);
             view.getContext().startActivity(intent);
         }
     }

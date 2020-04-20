@@ -23,7 +23,7 @@ import pkg.es96a_app.R;
 
 public class userLoginFragment extends Fragment implements View.OnClickListener {
 
-    public Button loginButton, loginToRegister;
+    public Button loginButton;
     public EditText loginUsername, loginPassword;
 
     // when the page is opened / clicked, the xml file is inflated and the page shows up
@@ -42,11 +42,9 @@ public class userLoginFragment extends Fragment implements View.OnClickListener 
         loginUsername = view.findViewById(R.id.loginUsername);
         loginPassword = view.findViewById(R.id.loginPassword);
         loginButton = view.findViewById(R.id.loginButton);
-        loginToRegister = view.findViewById(R.id.loginToRegister);
 
         // onClickListeners wait for a click to do something
         loginButton.setOnClickListener(this);
-        loginToRegister.setOnClickListener(this);
     }
 
     // When the login button is clicked, the method below is notified. If we have multiple
@@ -55,20 +53,10 @@ public class userLoginFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View view) {
 
-        // the switch statement gets the ID of the view to notify the OnClick method
-        // the switch statement is akin to an if-else-if statement with multiple cases
-        switch(view.getId()) {
-            case R.id.loginButton:
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                view.getContext().startActivity(intent);
-                break;
-
-            // if the loginToRegister button is clicked, move to the registration page
-//            case R.id.loginToRegister:
-//                    Class<userRegisterFragment> registerFrag = userRegisterFragment.class;
-//                    intent = new Intent(view.getContext(), registerFrag);
-//                    view.getContext().startActivity(intent);
-//                    break;
+        // the if statement gets the ID of the view to notify the OnClick method
+        if (view.getId() == R.id.loginButton) {
+            Intent intent = new Intent(view.getContext(), MainActivity.class);
+            view.getContext().startActivity(intent);
         }
     }
 }
