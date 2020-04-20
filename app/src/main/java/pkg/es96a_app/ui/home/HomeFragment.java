@@ -20,6 +20,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -32,10 +37,16 @@ import pkg.es96a_app.R;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    public TextView mTextViewResult;
+    public TextView TextViewClassification;
     public String name;
     public String names = "";
-    public String newNames = "";
+    public String newName = "";
+    public String mostRecentName = "";
+    public String timeString = "";
+    // Create Date Formatting Objects
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd:HH:mm");
+    public Date convertedDate = null;
+    public Date mostRecentDate = new Date();
     int count = 0;
     public TextView counter;
     // instantiate client
@@ -49,6 +60,15 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        // instantiate mostRecentDate outside of repeated code
+//        try {
+//           mostRecentDate = formatter.parse("2000-01-01:00:00");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+        Log.d("JONAS CURRENT DATE",String.valueOf((mostRecentDate)));
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -64,7 +84,7 @@ public class HomeFragment extends Fragment {
 
         // Implement Http request
         // Find TextView
-        mTextViewResult = getView().findViewById(R.id.text_view_result);
+        TextViewClassification = getView().findViewById(R.id.text_classification);
         // Make the request every 5 seconds
         repeatRequest(client, request, 5000);
     }
@@ -72,7 +92,6 @@ public class HomeFragment extends Fragment {
     // this class takes a client and a request and repeats the request intermittently
     public void repeatRequest(OkHttpClient client, Request request, int milliseconds) {
         // Display Refresh Count
-        count++;
         counter.setText(String.valueOf(count));
 
         // New Call
@@ -94,29 +113,48 @@ public class HomeFragment extends Fragment {
                         // iterate through JSON array and parse out the name key
                         for (int i = 0; i < JA.length(); i++) {
                             JSONObject JO = (JSONObject) JA.get(i);
-                            if (JO.has("name")) {
-                                name = "NAME: " + JO.get("name") + "\n";
+                            if (JO.has("time")) {
+                                name = JO.get("username") + "\n";
                                 names = names + name;
+
+                                // Pull out the time stamp and convert to date object
+                                timeString = String.valueOf(JO.get("time"));
+                                try {
+                                    convertedDate = (Date) formatter.parse(timeString);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                //Log.d("JONAS DATE",String.valueOf(convertedDate));
+
+                                if (mostRecentDate.compareTo(convertedDate) < 0) {
+                                    mostRecentDate = convertedDate;
+                                    mostRecentName = name;
+                                    Log.d("JONAS MOST RECENT NAME", String.valueOf(mostRecentName));
+                                }
                             }
                         }
                         // if the new names string is not different from the old one then the view
                         // is not altered
-                        if (newNames != names) {
-                            newNames = names;
+                        if (newName != mostRecentName) {
+                            Log.d("JONAS NAME CHECK", String.valueOf(newName != mostRecentName));
+                            newName = mostRecentName;
+                            count++; // Update counter
+
+                            final String fnl_str = mostRecentName; // declare string to be printed
+                            Log.d("JONAS FINAL STRING",fnl_str);
+
+                            // Run on the main thread
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // DO ACTIONS HERE
+
+                                    // Set the text view to some text
+                                    TextViewClassification.setText(fnl_str);
+                                }
+                            });
                         }
-                        final String fnl_str = newNames;
-                        Log.d("JONAS",fnl_str);
 
-                        // Run on the main thread
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // DO ACTIONS HERE
-
-                                // Set the text view to some text
-                                mTextViewResult.setText(fnl_str);
-                            }
-                        });
                     } catch (JSONException e) {
                         Log.d("THERE WAS AN ERROR", "");
                         e.printStackTrace();
