@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="newUserUsername" type="id" />
+    <item name="newUserPassword" type="id" />
+    <item name="newUserName" type="id" />
+    <item name="complete_registration" type="id" />
+    <item name="fragmentContainer" type="id" />
+</resources>

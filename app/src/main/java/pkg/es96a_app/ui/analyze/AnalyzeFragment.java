@@ -20,8 +20,7 @@ public class AnalyzeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        analyzeViewModel =
-                ViewModelProviders.of(this).get(pkg.es96a_app.ui.analyze.AnalyzeViewModel.class);
+        //analyzeViewModel = ViewModelProviders.of(this).get(pkg.es96a_app.ui.analyze.AnalyzeViewModel.class);
         return inflater.inflate(R.layout.fragment_analyze, container, false);
 
     }
