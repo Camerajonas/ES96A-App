@@ -15,10 +15,10 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.336"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.345" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <EditText
         android:id="@+id/text_sessionID"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.479" />
+        app:layout_constraintVertical_bias="0.711" />
 
     <TextView
         android:id="@+id/text_estimate"
@@ -44,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_scanNumber"
-        app:layout_constraintVertical_bias="0.741" />
+        app:layout_constraintVertical_bias="0.668" />
 
     <TextView
         android:id="@+id/text_classification"
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_scanNumber"
-        app:layout_constraintVertical_bias="0.732" />
+        app:layout_constraintVertical_bias="0.373" />
 
     <TextView
         android:id="@+id/text_estimate2"
@@ -72,7 +72,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_scanNumber"
-        app:layout_constraintVertical_bias="0.681" />
+        app:layout_constraintVertical_bias="0.779" />
 
     <TextView
         android:id="@+id/textView2"
@@ -99,7 +99,7 @@
         android:id="@+id/counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3"
+        android:text="0"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_scanNumber"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,6 +107,42 @@
         app:layout_constraintStart_toEndOf="@+id/text_scanNumber"
         app:layout_constraintTop_toTopOf="@+id/text_scanNumber"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/scan_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#93B288"
+        android:enabled="false"
+        android:text="Begin Scanning"
+        android:textColor="#435443"
+        app:layout_constraintBottom_toTopOf="@+id/text_scanNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_sessionID"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/scan_instructions"
+        android:layout_width="319dp"
+        android:layout_height="100dp"
+        android:text="@string/scan_instructions"
+        app:layout_constraintBottom_toTopOf="@+id/text_sessionID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.489" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instructions:"
+        app:layout_constraintBottom_toTopOf="@+id/scan_instructions"
+        app:layout_constraintStart_toStartOf="@+id/scan_instructions" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
