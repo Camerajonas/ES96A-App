@@ -2,10 +2,13 @@ package pkg.es96a_app.ui.home;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -43,11 +47,11 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     public TextView TextViewClassification;
-    public Text text_sessionID;
+    public String sessionID = "";
     public String name;
     public String names = "";
-    public String newName = "";
-    public String mostRecentName = "";
+    public String newID = "";
+    public JSONObject mostRecentJO;
     public String timeString = "";
     // Create Date Formatting Objects
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd:HH:mm");
@@ -89,14 +93,40 @@ public class HomeFragment extends Fragment {
 
         Log.d("JONAS","The view is created.");
 
-        // Find the view for the counter
+        // Find the views for everything
         counter = getView().findViewById(R.id.counter);
+        final EditText text_sessionID = getView().findViewById(R.id.text_sessionID);
+        final Button scan_btn = getView().findViewById(R.id.scan_btn);
+
+        // create text watcher
+        text_sessionID.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // get the session ID
+                sessionID = text_sessionID.getText().toString();
+                scan_btn.setEnabled(!sessionID.isEmpty());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        Log.d("JONAS SESSION ID", sessionID.toString());
 
         // Implement Http request
         // Find TextView
         TextViewClassification = getView().findViewById(R.id.text_classification);
-        // Make the request every 5 seconds
-        repeatRequest(client, request, 8000);
+
+        // Make the request repeatedly after hitting the button
+        scan_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                repeatRequest(client, request, 8000);
+            }
+        });
     }
 
     // this class takes a client and a request and repeats the request intermittently
@@ -115,13 +145,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.d("JONAS", "Response Received");
+                    Log.d("JONAS", "Get Response Received");
 
 
                     // Parse JSON Object
                     try {
                         JSONArray JA = new JSONArray(response.body().string());
-                        Log.d("JONAS JA Array", String.valueOf(JA));
+                        //Log.d("JONAS JA Array", String.valueOf(JA));
                         names = "";
                         // iterate through JSON array and parse out the name key
                         for (int i = 0; i < JA.length(); i++) {
@@ -142,19 +172,19 @@ public class HomeFragment extends Fragment {
 
                                 if (mostRecentDate.compareTo(convertedDate) < 0) {
                                     mostRecentDate = convertedDate;
-                                    mostRecentName = name;
-                                    Log.d("JONAS MOST RECENT NAME", String.valueOf(mostRecentName));
+                                    mostRecentJO = JO;
+                                    Log.d("JONAS JSON Object", String.valueOf(mostRecentJO));
                                 }
                             }
                         }
                         // if the new names string is not different from the old one then the view
                         // is not altered
-                        if (newName != mostRecentName) {
-                            Log.d("JONAS NAME CHECK", String.valueOf(newName != mostRecentName));
-                            newName = mostRecentName;
+                        if (newID != mostRecentJO.get("_id").toString()) {
+                            Log.d("JONAS ID CHECK", String.valueOf(newID != mostRecentJO.get("_id").toString()));
+                            newID = randomString(24);
                             count++; // Update counter
 
-                            final String fnl_str = mostRecentName; // declare string to be printed
+                            final String fnl_str = mostRecentJO.get("username").toString(); // declare string to be printed
                             Log.d("JONAS FINAL STRING",fnl_str);
 
                             // Run on the main thread
@@ -163,7 +193,7 @@ public class HomeFragment extends Fragment {
                                 public void run() {
                                     // DO ACTIONS HERE
 
-                                    postData(fnl_str, client);
+                                    postData(mostRecentJO, client);
                                     // Set the text view to some text
                                     TextViewClassification.setText(fnl_str);
                                 }
@@ -183,12 +213,22 @@ public class HomeFragment extends Fragment {
     }
 
     // This class implements a post request
-    public void postData(String user, OkHttpClient client) {
+    public void postData(JSONObject JO, OkHttpClient client) {
 
         Log.d("JONAS POST", "POSTDATA Called");
 
+        // Append the session ID to the JSON object
+        try {
+            JO.put("_id", newID);
+            JO.put("username", "JONAS");
+            JO.put("sessionID", sessionID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("JONAS JO FOR POST", JO.toString());
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\n \"name\" : \"JONAS\",\n \"birthplace\" : \"Pocatello\"\n}");
+        //RequestBody body = RequestBody.create(mediaType, "{\n \"name\" : \"JONAS\",\n \"birthplace\" : \"Pocatello\"\n}");
+        RequestBody body = RequestBody.create(mediaType, String.valueOf(JO));
 
         // build the request
         Request postRequest = new Request.Builder()
@@ -227,6 +267,18 @@ public class HomeFragment extends Fragment {
             }
         };
         handler.postDelayed(runnable, milliseconds);
+    }
+
+    // this class generates a random string to be used as JSON ID
+    public static String randomString(int i) {
+        final String characters = "abcdefghhijklmnopqrstuvwxyz1234567890";
+        StringBuilder result = new StringBuilder();
+        while (i > 0) {
+            Random rand = new Random();
+            result.append(characters.charAt(rand.nextInt(characters.length())));
+            i--;
+        }
+        return result.toString();
     }
 
 }

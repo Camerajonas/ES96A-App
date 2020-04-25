@@ -20,7 +20,10 @@
 
     <!-- Home Fragment -->
     <string name="home_title">Scan</string>
-    <string name="text_session">Session / Crate Number</string>
+    <string name="scan_instructions">Input a Session ID of your choosing, then click on the \'Begin
+    Scanning\' button to start displaying scans. After you begin, your scans will automatically
+    display predicted ripeness state and estimated time until peak ripeness.</string>
+    <string name="text_session">Input Session ID</string>
     <string name="text_scanNumber">Scan Number: </string>
     <string name="text_ESDR">Estimated Date of Ripeness:</string>
     <string name="text_NDUR">Number of Days Until Ripe:</string>

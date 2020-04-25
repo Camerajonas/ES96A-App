@@ -7,29 +7,19 @@
     tools:context=".ui.analyze.AnalyzeFragment">
 
     <Button
-        android:id="@+id/analyze_button2"
-        android:layout_width="161dp"
-        android:layout_height="66dp"
+        android:id="@+id/analyze_btn"
+        android:layout_width="149dp"
+        android:layout_height="56dp"
         android:backgroundTint="#93B288"
+        android:enabled="false"
         android:text="Analyze"
-        android:textSize="24sp"
+        android:textColor="#435443"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_analyze"
-        app:layout_constraintVertical_bias="0.188" />
-
-    <TextView
-        android:id="@+id/result2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Shelf Life: 3-4 days"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/analyze_button2"
-        app:layout_constraintVertical_bias="0.339" />
+        app:layout_constraintVertical_bias="0.178" />
 
     <TextView
         android:id="@+id/text_analyze"
@@ -46,5 +36,28 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.223" />
+        app:layout_constraintVertical_bias="0.095" />
+
+    <EditText
+        android:id="@+id/text_analyze_sessionID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="Input Session ID"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_analyze" />
+
+    <TextView
+        android:id="@+id/display_JSON"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/analyze_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
