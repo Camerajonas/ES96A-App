@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,8 +42,9 @@ public class HistoryFragment extends Fragment {
     public TextView crates;
 
     //instantiate the stuff we want to display
-    ArrayList<String> birthplace = new ArrayList<String>();
-    ArrayList<String> time = new ArrayList<String>();
+    public ArrayList<String> birthplace = new ArrayList<String>();
+    public ArrayList<String> time = new ArrayList<String>();
+    JSONArray raw;
 
     // instantiate client
     OkHttpClient client = new OkHttpClient();
@@ -73,8 +77,10 @@ public class HistoryFragment extends Fragment {
         // Implement Http request
         // request for the Jsonarray
         reqJdata(client, request, 8000);
-        Log.v("main", String.valueOf(birthplace.size()));
-        init();
+
+        // create text watcher
+        //Log.v("main", String.valueOf(birthplace.size()));
+        //init();
 
     }
 
@@ -102,64 +108,79 @@ public class HistoryFragment extends Fragment {
 //        }
 //    }
 
-    public void reqJdata(final OkHttpClient client, Request request, int milliseconds){
+    public void reqJdata(final OkHttpClient client, Request request, int milliseconds) {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("Mark", "Did not connect to api");
+
                 e.printStackTrace();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 if (response.isSuccessful()) {
-
                     try {
-                        JSONArray jData = new JSONArray(response.body().string());
-                        response.body().close();
+                        final JSONArray jData = new JSONArray(response.body().string());
 
-                        for (int i= 0; i < jData.length(); i++){
+//                    // Get a handler that can be used to post to the main thread
+//                    Handler mainHandler = new Handler(getContext().getMainLooper());
+//
+//                    Runnable myRunnable = new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            // DO ACTIONS HERE
+//                            // Set the text view to some text
+//                            try {
+//                                HistoryFragment.this.setData(response.body().string());
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    };
+//                    mainHandler.post(myRunnable);
 
-                                JSONObject JO = (JSONObject) jData.get(i);
+                        for (int i = 0; i < jData.length(); i++) {
 
-                                if (JO.has("birthplace")){
-                                    birthplace.add(JO.get("birthplace").toString());
+                            JSONObject JO = (JSONObject) jData.get(i);
 
-                                }
-                                if (JO.has("time")){
-                                    time.add(JO.get("time").toString());
-                                }
+                            if (JO.has("birthplace")) {
+                                birthplace.add(JO.get("birthplace").toString());
+                                time.add(JO.get("time").toString());
+                            }
                         }
                         Log.v("inside", String.valueOf(birthplace.size()));
 
-                    } catch (JSONException e) {
-                        Log.d("Mark", "JsonArray was not set");
+                        // Run on the main thread
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                init();
+                            }
+                        });
+
+                    }catch(JSONException e){
                         e.printStackTrace();
                     }
-                    Log.v("outside", String.valueOf(birthplace.size()));
 
 
                 }
-                Log.v("outsideif", String.valueOf(birthplace.size()));
+                   // Log.v("outside", String.valueOf(birthplace.size()));
             }
-
-
         });
-        Log.v("outsideclient", String.valueOf(birthplace.size()));
-
+        //Log.v("outsideclient", String.valueOf(birthplace.size()));
     }
 
 
-    @SuppressLint("ResourceType")
     public void init(){
-
+        Log.d("String", Arrays.toString(birthplace.toArray()));
         // Find the table and sets it to table 1
         TableLayout table1 = (TableLayout) getView().findViewById(R.id.table1);
 
         //instantiate a tablerow and column
         TableRow [] row = new TableRow[time.size()];
-        TextView [] col = new TextView[2]; //The size is dependent on # of columns
+        TextView [] col = new TextView [2]; //The size is dependent on # of columns
 
         //Create the tablerows
         for(int i =0; i< row.length; i++ ){
@@ -170,6 +191,7 @@ public class HistoryFragment extends Fragment {
                     TableLayout.LayoutParams.WRAP_CONTENT));
 
             //This sets the text to the header
+
             for (int j = 0; j < col.length; j++ ) {
                 col [j] = new TextView(getContext());
                 if(j == 0) {
@@ -192,15 +214,22 @@ public class HistoryFragment extends Fragment {
 
     }
 
-    // this class implements the intermittent refreshing
-    private void refresh(final int milliseconds) {
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                reqJdata(client, request, milliseconds);
-            }
-        };
-        handler.postDelayed(runnable, milliseconds);
-    }
+//    public void setData(ArrayList<String> a, ArrayList<String> b){
+//        for (int i = 0; i<a.size(); i++){
+//            birthplace.add(a.get(i));
+//            time.add(b.get(i));
+//        }
+//
+//    }
+//    // this class implements the intermittent refreshing
+//    private void refresh(final int milliseconds) {
+//        final Handler handler = new Handler();
+//        final Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                reqJdata(client, request, milliseconds);
+//            }
+//        };
+//        handler.postDelayed(runnable, milliseconds);
+//    }
 }
