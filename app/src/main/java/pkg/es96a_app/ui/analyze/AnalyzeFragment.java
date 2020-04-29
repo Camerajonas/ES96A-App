@@ -64,7 +64,7 @@ public class AnalyzeFragment extends Fragment {
     ArrayList<BarEntry> entries = new ArrayList<>();
     ArrayList<BarEntry> darkentries = new ArrayList<>();
     ArrayList<String> states = new ArrayList<>();
-    ArrayList<String> days = new ArrayList<>();
+    ArrayList<Integer> days = new ArrayList<>();
     ArrayList<String> xAxisLabel = new ArrayList<>();
     LinkedHashSet<String> options = new LinkedHashSet<>();
     String[] optionsList;
@@ -109,7 +109,7 @@ public class AnalyzeFragment extends Fragment {
     }
 
     // create class to make get requests
-    public void getRequest(String sessionID) {
+    public void getRequest(final String sessionID) {
 
         // instantiate client
         OkHttpClient client = new OkHttpClient();
@@ -140,6 +140,8 @@ public class AnalyzeFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     Log.d("JONAS", "Get Response Received");
+                    int total = 0;
+                    int avg = 0;
 
                     // Parse JSON Response
                     try {
@@ -164,9 +166,16 @@ public class AnalyzeFragment extends Fragment {
                                 }
                             }
                             if (JO.has("ripenessDays")) {
-                                days.add(JO.get("ripenessDays").toString());
+                                days.add(Integer.parseInt(JO.get("ripenessDays").toString()));
                             }
                         }
+                        // Calculate Mean
+                        for(int j = 0; j < days.size(); j++)
+                        {
+                            total += days.get(j);
+                        }
+                        avg = (int) total / days.size();
+                        Log.d("JONAS Average", String.valueOf(avg));
                         // Set the barchart elements
                         count = JA.length();
                         darkentries.add(new BarEntry(1f, stuntC[0]));
@@ -190,7 +199,11 @@ public class AnalyzeFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    final String txt = "Total Scans: " + String.valueOf(count);
+                    final String txt = "Fast Facts" + "\n" +
+                        "Session ID: " + sessionID + "\n" +
+                            "Total Scans: " + String.valueOf(count) + "\n" +
+                            "Average Days Until Ripe: " + String.valueOf(avg);
+
                     // Run on the main thread
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -227,11 +240,18 @@ public class AnalyzeFragment extends Fragment {
                             // Create the BarChart
                             barchart.setData(data);
                             barchart.invalidate();
-                            barchart.animateY(1500);
+                            barchart.animateY(200);
 
                             // Set scans count
                             TextView totalScans = getView().findViewById(R.id.totalScans);
                             totalScans.setText(txt);
+                            totalScans.setVisibility(View.VISIBLE);
+                            // Show Yaxis label
+                            TextView yAxisTitle = getView().findViewById(R.id.yAxisTitle);
+                            yAxisTitle.setVisibility(View.VISIBLE);
+                            // Show plot title
+                            TextView title = getView().findViewById(R.id.plotTitle);
+                            title.setVisibility(View.VISIBLE);
 
                         }
                     });

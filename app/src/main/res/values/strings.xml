@@ -28,8 +28,8 @@
     <string name="text_NDUR">Number of Days Until Ripe:</string>
 
     <!-- Analyze Fragment -->
-    <string name="analyze_page">Instructions:\nInput the session ID you used while scanning to look up batch statistics
-    on all avocados scanned during that session. Be mindful, session ID codes are case sensitive.</string>
+    <string name="analyze_page">Instructions:\nSelect a scan session from the dropdown menu then
+        click analyze to view batch statistics on avocados scanned during that session. </string>
     <string-array name="spinnerNames">
         <item>Name1</item>
         <item>Name2</item>

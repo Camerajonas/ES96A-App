@@ -9,9 +9,8 @@
 
     <Button
         android:id="@+id/analyze_btn"
-        android:layout_width="149dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="152dp"
+        android:layout_height="60dp"
         android:backgroundTint="#93B288"
         android:text="Analyze"
         android:textColor="#435443"
@@ -36,19 +35,26 @@
         android:id="@+id/totalScans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/bargraph"
+        android:text="Total Count"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/plotTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/analyze_btn"
+        app:layout_constraintVertical_bias="0.42000002" />
 
     <TextView
         android:id="@+id/yAxisTitle"
         android:layout_width="74dp"
         android:layout_height="72dp"
         android:rotation="90"
-        android:text="Frequency"
+        android:text="Count"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/bargraph"
         app:layout_constraintTop_toTopOf="@+id/bargraph"
@@ -58,7 +64,7 @@
         android:id="@+id/spinner"
         android:layout_width="212dp"
         android:layout_height="41dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="36dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -70,6 +76,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select a Session ID"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="@+id/spinner" />
+
+    <TextView
+        android:id="@+id/plotTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Frequency Plot"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/bargraph"
+        app:layout_constraintEnd_toEndOf="@+id/bargraph"
+        app:layout_constraintStart_toStartOf="@+id/bargraph" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
