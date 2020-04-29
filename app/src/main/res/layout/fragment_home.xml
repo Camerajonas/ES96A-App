@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.336"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.372" />
 
     <EditText
         android:id="@+id/text_sessionID"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.711" />
+        app:layout_constraintVertical_bias="0.265" />
 
     <TextView
         android:id="@+id/text_estimate"
@@ -123,26 +123,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_sessionID"
         app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/scan_instructions"
-        android:layout_width="319dp"
-        android:layout_height="100dp"
-        android:text="@string/scan_instructions"
-        app:layout_constraintBottom_toTopOf="@+id/text_sessionID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.489" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Instructions:"
-        app:layout_constraintBottom_toTopOf="@+id/scan_instructions"
-        app:layout_constraintStart_toStartOf="@+id/scan_instructions" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

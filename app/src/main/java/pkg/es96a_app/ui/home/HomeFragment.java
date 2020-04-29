@@ -1,5 +1,6 @@
 package pkg.es96a_app.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -62,7 +64,7 @@ public class HomeFragment extends Fragment {
     public TextView counter;
     // instantiate client
     OkHttpClient client = new OkHttpClient();
-    String url = "https://es96app.herokuapp.com/justdata?username=Jamie+AvoScanner";
+    String url = "https://es96app.herokuapp.com/justdata";
     String url_post = "https://es96app.herokuapp.com/test";
     // build the request
     final Request request = new Request.Builder()
@@ -106,7 +108,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // get the session ID
-                sessionID = text_sessionID.getText().toString();
+                sessionID = text_sessionID.getText().toString().replaceAll(" ", "");
                 scan_btn.setEnabled(!sessionID.isEmpty());
             }
 
@@ -124,6 +126,7 @@ public class HomeFragment extends Fragment {
         scan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 repeatRequest(client, request, 8000);
             }
         });
@@ -279,6 +282,18 @@ public class HomeFragment extends Fragment {
             i--;
         }
         return result.toString();
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        // from https://stackoverflow.com/questions/1109022/close-hide-android-soft-keyboard
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }
