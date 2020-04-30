@@ -199,8 +199,7 @@ public class AnalyzeFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    final String txt = "Fast Facts" + "\n" +
-                        "Session ID: " + sessionID + "\n" +
+                    final String txt = "Session ID: " + sessionID + "\n" +
                             "Total Scans: " + String.valueOf(count) + "\n" +
                             "Average Days Until Ripe: " + String.valueOf(avg);
 

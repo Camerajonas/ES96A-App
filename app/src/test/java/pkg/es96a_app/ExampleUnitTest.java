@@ -1,6 +1,6 @@
 package pkg.es96a_app;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 

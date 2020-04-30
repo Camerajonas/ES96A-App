@@ -9,14 +9,14 @@
 
     <Button
         android:id="@+id/analyze_btn"
-        android:layout_width="152dp"
-        android:layout_height="60dp"
+        android:layout_width="212dp"
+        android:layout_height="56dp"
         android:backgroundTint="#93B288"
         android:text="Analyze"
         android:textColor="#435443"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <com.github.mikephil.charting.charts.BarChart
@@ -31,34 +31,22 @@
         app:layout_constraintTop_toBottomOf="@+id/analyze_btn"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/totalScans"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Count"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/plotTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/analyze_btn"
-        app:layout_constraintVertical_bias="0.42000002" />
 
     <TextView
         android:id="@+id/yAxisTitle"
-        android:layout_width="74dp"
-        android:layout_height="72dp"
+        android:layout_width="54dp"
+        android:layout_height="47dp"
         android:rotation="90"
         android:text="Count"
+        android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="18sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/bargraph"
+        app:layout_constraintStart_toEndOf="@+id/bargraph"
         app:layout_constraintTop_toTopOf="@+id/bargraph"
-        app:layout_constraintVertical_bias="0.26999998" />
+        app:layout_constraintVertical_bias="0.32999998" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -67,9 +55,10 @@
         android:layout_marginTop="36dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.778"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/textView"
@@ -78,19 +67,77 @@
         android:text="Select a Session ID"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="@+id/spinner" />
 
     <TextView
         android:id="@+id/plotTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:text="Frequency Plot"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/bargraph"
+        app:layout_constraintStart_toStartOf="@+id/fastFacts" />
+
+    <TextView
+        android:id="@+id/totalScans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Count"
+        android:textAlignment="textEnd"
         android:textColor="#000000"
         android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/bargraph"
-        app:layout_constraintEnd_toEndOf="@+id/bargraph"
-        app:layout_constraintStart_toStartOf="@+id/bargraph" />
+        app:layout_constraintBottom_toTopOf="@+id/plotTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.794"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/analyze_btn"
+        app:layout_constraintVertical_bias="0.447" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/secondary_text_dark"
+        app:layout_constraintBottom_toTopOf="@+id/totalScans"
+        app:layout_constraintTop_toBottomOf="@+id/analyze_btn"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/secondary_text_light_nodisable"
+        app:layout_constraintBottom_toTopOf="@+id/plotTitle"
+        app:layout_constraintTop_toBottomOf="@+id/totalScans"
+        tools:layout_editor_absoluteX="-45dp" />
+
+    <TextView
+        android:id="@+id/fastFacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Fast Facts"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.18" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Search"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/fastFacts"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

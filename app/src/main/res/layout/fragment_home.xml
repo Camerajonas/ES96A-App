@@ -8,17 +8,28 @@
 
     <TextView
         android:id="@+id/text_scanNumber"
-        android:layout_width="206dp"
+        android:layout_width="195dp"
         android:layout_height="46dp"
         android:text="@string/text_scanNumber"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.336"
+        app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.313" />
+        app:layout_constraintVertical_bias="0.375" />
+
+    <TextView
+        android:id="@+id/scannerLabel"
+        android:layout_width="160dp"
+        android:layout_height="43dp"
+        android:text="Scanner ID:"
+        android:textAlignment="textStart"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/text_scanNumber"
+        app:layout_constraintTop_toBottomOf="@+id/text_scanNumber" />
 
     <EditText
         android:id="@+id/text_sessionID"
@@ -44,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_scanNumber"
-        app:layout_constraintVertical_bias="0.773" />
+        app:layout_constraintVertical_bias="0.762" />
 
     <TextView
         android:id="@+id/text_classification"
@@ -59,7 +70,7 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_scanNumber"
-        app:layout_constraintVertical_bias="0.589" />
+        app:layout_constraintVertical_bias="0.795" />
 
     <TextView
         android:id="@+id/text_estimate2"
@@ -73,7 +84,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_scanNumber"
-        app:layout_constraintVertical_bias="0.693" />
+        app:layout_constraintVertical_bias="0.76" />
 
     <TextView
         android:id="@+id/ripeDate"
@@ -104,26 +115,57 @@
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_scanNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/text_scanNumber"
         app:layout_constraintTop_toTopOf="@+id/text_scanNumber"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/scan_btn"
+    <TextView
+        android:id="@+id/scannerID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/scannerLabel"
+        app:layout_constraintStart_toEndOf="@+id/scannerLabel"
+        app:layout_constraintTop_toTopOf="@+id/scannerLabel"
+        app:layout_constraintVertical_bias="0.458" />
+
+    <Button
+        android:id="@+id/scan_btn"
+        android:layout_width="213dp"
+        android:layout_height="62dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="#93B288"
         android:enabled="false"
         android:text="Begin Scanning"
         android:textColor="#435443"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/text_scanNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_sessionID"
         app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/secondary_text_light_nodisable"
+        app:layout_constraintBottom_toTopOf="@+id/text_scanNumber"
+        app:layout_constraintTop_toBottomOf="@+id/scan_btn"
+        app:layout_constraintVertical_bias="0.779"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/secondary_text_light_nodisable"
+        app:layout_constraintBottom_toTopOf="@+id/text_classification"
+        app:layout_constraintTop_toBottomOf="@+id/text_scanNumber"
+        app:layout_constraintVertical_bias="0.613"
+        tools:layout_editor_absoluteX="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

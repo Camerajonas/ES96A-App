@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
     public String sessionID = "";
     public String state;
     public String newID = "";
-    public JSONObject mostRecentJO;
+    public JSONObject mostRecentJO = new JSONObject();
     public String timeString = "";
     // Create Date Formatting Objects
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
@@ -123,15 +123,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 hideKeyboard(getActivity());
-                repeatRequest(client, request, 1000);
+                repeatRequest(client, request, 5000);
             }
         });
     }
 
     // this class takes a client and a request and repeats the request intermittently
     public void repeatRequest(final OkHttpClient client, Request request, int milliseconds) {
-        // Display Refresh Count
-        counter.setText(String.valueOf(count));
 
         // New Call
         client.newCall(request).enqueue(new Callback() {
@@ -150,10 +148,11 @@ public class HomeFragment extends Fragment {
                     // Parse JSON Object
                     try {
                         JSONArray JA = new JSONArray(response.body().string());
-                        //Log.d("JONAS JA Array", String.valueOf(JA));
+                        Log.d("JONAS JA Array", String.valueOf(JA));
                         // iterate through JSON array and parse out the name key
                         for (int i = 0; i < JA.length(); i++) {
                             JSONObject JO = (JSONObject) JA.get(i);
+                            Log.d("JONAS JO",JO.toString());
                             if (JO.has("time")) {
                                 // Pull out the time stamp and convert to date object
                                 timeString = String.valueOf(JO.get("time"));
@@ -174,6 +173,7 @@ public class HomeFragment extends Fragment {
                         }
                         // if the new names string is not different from the old one then the view
                         // is not altered
+
                         if (newID != mostRecentJO.get("_id").toString()) {
                             Log.d("JONAS ID CHECK", String.valueOf(newID != mostRecentJO.get("_id").toString()));
                             newID = randomString(24);
@@ -181,6 +181,7 @@ public class HomeFragment extends Fragment {
 
                             final String ripenessState = mostRecentJO.get("ripenessState").toString(); // declare string to be printed
                             final String ripenessDays_str = mostRecentJO.get("ripenessDays").toString();
+                            final String scannerID_str = mostRecentJO.get("device").toString();
                             Date currentDate = new Date();
                             // convert date to calendar
                             Calendar c = Calendar.getInstance();
@@ -198,15 +199,23 @@ public class HomeFragment extends Fragment {
                                 public void run() {
                                     // DO ACTIONS HERE
 
+                                    // post the complete JSON back to the database
                                     postData(mostRecentJO, client);
                                     // Set the text view to some text
                                     TextViewClassification.setText(ripenessState);
+
+                                    // Update the screen
+                                    // update counter
+                                    counter.setText(String.valueOf(count));
 
                                     TextView ripeDatetxt = getView().findViewById(R.id.ripeDate);
                                     ripeDatetxt.setText(ripeDate);
 
                                     TextView ripenessDays = getView().findViewById(R.id.ripenessDays);
                                     ripenessDays.setText(ripenessDays_str + " days");
+
+                                    TextView scannerID = getView().findViewById(R.id.scannerID);
+                                    scannerID.setText(scannerID_str);
                                 }
                             });
                         }
