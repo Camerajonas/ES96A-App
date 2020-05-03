@@ -1,6 +1,6 @@
 <resources>
     <!-- Navigation -->
-    <string name="app_name">ES96A-App</string>
+    <string name="app_name">Avocado</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Savormetrics with Harvard Engineering</string>
@@ -20,7 +20,7 @@
 
     <!-- Home Fragment -->
     <string name="home_title">Scan</string>
-    <string name="scan_instructions">Input a Session ID of your choosing, then click on the \'Begin
+    <string name="scan_instructions">Instructions:\nInput a Session ID of your choosing, then click on the \'Begin
     Scanning\' button to start displaying scans. After you begin, your scans will automatically
     display predicted ripeness state and estimated time until peak ripeness.</string>
     <string name="text_session">Input Session ID</string>
@@ -29,7 +29,13 @@
     <string name="text_NDUR">Number of Days Until Ripe:</string>
 
     <!-- Analyze Fragment -->
-    <string name="analyze_page">Here is the analyze page. This is the page we will display the shelf estimates.</string>
+    <string name="analyze_page">Instructions:\nSelect a scan session from the dropdown menu then
+        click analyze to view batch statistics on avocados scanned during that session. </string>
+    <string-array name="spinnerNames">
+        <item>Name1</item>
+        <item>Name2</item>
+        <item>Name3</item>
+    </string-array>
 
     <!-- History Fragment -->
     <string name="history_page">Here is the history page. This is where you can access and search your scan history.</string>

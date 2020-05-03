@@ -1,6 +1,8 @@
 package pkg.es96a_app.ui.home;
 
+
 import android.net.Uri;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,14 +55,14 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     public TextView TextViewClassification;
+    public String username = "ES96";
     public String sessionID = "";
-    public String name;
-    public String names = "";
+    public String state;
     public String newID = "";
-    public JSONObject mostRecentJO;
+    public JSONObject mostRecentJO = new JSONObject();
     public String timeString = "";
     // Create Date Formatting Objects
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd:HH:mm");
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
     public Date convertedDate = null;
     //public Date mostRecentDate = new Date();
     public Date mostRecentDate;
@@ -67,7 +70,7 @@ public class HomeFragment extends Fragment {
     public TextView counter;
     // instantiate client
     OkHttpClient client = new OkHttpClient();
-    String url = "https://es96app.herokuapp.com/justdata?username=Jamie+AvoScanner";
+    String url = "https://es96app.herokuapp.com/justdata?username=" + username;
     String url_post = "https://es96app.herokuapp.com/test";
     // build the request
     final Request request = new Request.Builder()
@@ -100,11 +103,7 @@ public class HomeFragment extends Fragment {
         Log.d("Email", personEmail);
 
         // instantiate mostRecentDate outside of repeated code
-        try {
-           mostRecentDate = formatter.parse("2000-01-01:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        mostRecentDate = new Date();
 
         Log.d("JONAS CURRENT DATE",String.valueOf((mostRecentDate)));
 
@@ -132,7 +131,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // get the session ID
-                sessionID = text_sessionID.getText().toString();
+                sessionID = text_sessionID.getText().toString().replaceAll(" ", "");
                 scan_btn.setEnabled(!sessionID.isEmpty());
             }
 
@@ -150,15 +149,14 @@ public class HomeFragment extends Fragment {
         scan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                repeatRequest(client, request, 8000);
+                hideKeyboard(getActivity());
+                repeatRequest(client, request, 5000);
             }
         });
     }
 
     // this class takes a client and a request and repeats the request intermittently
     public void repeatRequest(final OkHttpClient client, Request request, int milliseconds) {
-        // Display Refresh Count
-        counter.setText(String.valueOf(count));
 
         // New Call
         client.newCall(request).enqueue(new Callback() {
@@ -171,47 +169,56 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.d("JONAS", "Get Response Received");
+                    //Log.d("JONAS", "Get Response Received");
 
 
                     // Parse JSON Object
                     try {
                         JSONArray JA = new JSONArray(response.body().string());
-                        //Log.d("JONAS JA Array", String.valueOf(JA));
-                        names = "";
+                        Log.d("JONAS JA Array", String.valueOf(JA));
                         // iterate through JSON array and parse out the name key
                         for (int i = 0; i < JA.length(); i++) {
                             JSONObject JO = (JSONObject) JA.get(i);
+                            Log.d("JONAS JO",JO.toString());
                             if (JO.has("time")) {
-                                name = JO.get("username") + "\n";
-                                names = names + name;
-                                //Log.d("JONAS NAME",name);
-
                                 // Pull out the time stamp and convert to date object
                                 timeString = String.valueOf(JO.get("time"));
                                 try {
                                     convertedDate = (Date) formatter.parse(timeString);
+                                    if (mostRecentDate.compareTo(convertedDate) < 0) {
+                                        mostRecentDate = convertedDate;
+                                        mostRecentJO = JO;
+                                        Log.d("JONAS JSON Object", String.valueOf(mostRecentJO));
+                                    }
                                 } catch (ParseException e) {
+                                    //Log.d("JONAS", "PARSING ERROR");
                                     e.printStackTrace();
                                 }
                                 //Log.d("JONAS DATE",String.valueOf(convertedDate));
 
-                                if (mostRecentDate.compareTo(convertedDate) < 0) {
-                                    mostRecentDate = convertedDate;
-                                    mostRecentJO = JO;
-                                    Log.d("JONAS JSON Object", String.valueOf(mostRecentJO));
-                                }
                             }
                         }
                         // if the new names string is not different from the old one then the view
                         // is not altered
+
                         if (newID != mostRecentJO.get("_id").toString()) {
                             Log.d("JONAS ID CHECK", String.valueOf(newID != mostRecentJO.get("_id").toString()));
                             newID = randomString(24);
                             count++; // Update counter
 
-                            final String fnl_str = mostRecentJO.get("username").toString(); // declare string to be printed
-                            Log.d("JONAS FINAL STRING",fnl_str);
+                            final String ripenessState = mostRecentJO.get("ripenessState").toString(); // declare string to be printed
+                            final String ripenessDays_str = mostRecentJO.get("ripenessDays").toString();
+                            final String scannerID_str = mostRecentJO.get("device").toString();
+                            Date currentDate = new Date();
+                            // convert date to calendar
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(currentDate);
+                            // add on days
+                            c.add(Calendar.DATE, Integer.parseInt(ripenessDays_str));
+                            // convert calendar to date
+                            SimpleDateFormat month_date = new SimpleDateFormat("MMM dd");
+                            final String ripeDate = month_date.format(c.getTime());
+                            Log.d("JONAS ripeDate", ripeDate);
 
                             // Run on the main thread
                             getActivity().runOnUiThread(new Runnable() {
@@ -219,9 +226,23 @@ public class HomeFragment extends Fragment {
                                 public void run() {
                                     // DO ACTIONS HERE
 
+                                    // post the complete JSON back to the database
                                     postData(mostRecentJO, client);
                                     // Set the text view to some text
-                                    TextViewClassification.setText(fnl_str);
+                                    TextViewClassification.setText(ripenessState);
+
+                                    // Update the screen
+                                    // update counter
+                                    counter.setText(String.valueOf(count));
+
+                                    TextView ripeDatetxt = getView().findViewById(R.id.ripeDate);
+                                    ripeDatetxt.setText(ripeDate);
+
+                                    TextView ripenessDays = getView().findViewById(R.id.ripenessDays);
+                                    ripenessDays.setText(ripenessDays_str + " days");
+
+                                    TextView scannerID = getView().findViewById(R.id.scannerID);
+                                    scannerID.setText(scannerID_str);
                                 }
                             });
                         }
@@ -246,7 +267,7 @@ public class HomeFragment extends Fragment {
         // Append the session ID to the JSON object
         try {
             JO.put("_id", newID);
-            JO.put("username", "JONAS");
+            JO.put("username", username);
             JO.put("sessionID", sessionID);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -305,6 +326,18 @@ public class HomeFragment extends Fragment {
             i--;
         }
         return result.toString();
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        // from https://stackoverflow.com/questions/1109022/close-hide-android-soft-keyboard
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }
