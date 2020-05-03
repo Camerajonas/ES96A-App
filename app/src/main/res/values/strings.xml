@@ -1,4 +1,7 @@
 <resources>
+    <!-- Server Name -->
+    <string name="server_client_id">541978987319-47kadfah8brj041j76pad8tolm21ivl5.apps.googleusercontent.com</string>
+
     <!-- Navigation -->
     <string name="app_name">Avocado</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -42,4 +45,5 @@
 
     <!-- Help Fragment -->
     <string name="help_page">Here is the help page. We can put fun stuff like FAQs here.</string>
+    <string name="actions">Actions</string>
 </resources>

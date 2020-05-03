@@ -29,16 +29,4 @@
         android:label="@string/menu_help"
         tools:layout="@layout/fragment_help" />
 
-    <fragment
-        android:id="@+id/nav_signin"
-        android:name="pkg.es96a_app.userLoginFragment"
-        android:label="@string/menu_signin"
-        tools:layout="@layout/fragment_userlogin" />
-
-    <fragment
-        android:id="@+id/nav_register"
-        android:name="pkg.es96a_app.registerFragment"
-        android:label="@string/menu_register"
-        tools:layout="@layout/fragment_register" />
-
 </navigation>
