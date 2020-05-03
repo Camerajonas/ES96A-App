@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
@@ -22,20 +23,8 @@
             android:title="@string/menu_help" />
     </group>
 
-    <item android:title="Actions">
-        <menu>
-            <item
-                android:id="@+id/nav_signin"
-                android:icon="@drawable/ic_signin"
-                android:title="@string/menu_signin" />
-            <item
-                android:id="@+id/nav_signout"
-                android:icon="@drawable/ic_signout"
-                android:title="@string/menu_signout" />
-            <item
-                android:id="@+id/nav_register"
-                android:icon="@drawable/ic_signin"
-                android:title="@string/menu_register" />
-        </menu>
-    </item>
+<!--    <item android:title="@string/actions">-->
+<!--        <menu>-->
+<!--        </menu>-->
+<!--    </item>-->
 </menu>

@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Got an error saying that HomeFragment is not declared, so added statement below-->
+        <activity
+            android:name="pkg.es96a_app.ui.home.HomeFragment"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
