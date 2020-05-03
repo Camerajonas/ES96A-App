@@ -32,6 +32,10 @@
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/ic_signout"
                 android:title="@string/menu_signout" />
+            <item
+                android:id="@+id/nav_register"
+                android:icon="@drawable/ic_signin"
+                android:title="@string/menu_register" />
         </menu>
     </item>
 </menu>
