@@ -35,4 +35,5 @@
                 android:textColor="#FFFFFF" />
         </TableRow>
     </TableLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

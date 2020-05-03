@@ -65,14 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Toolbar work
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -82,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.id.nav_home, R.id.nav_analyze, R.id.nav_history, R.id.nav_help)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -214,6 +206,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signOut();
                 break;
         }
+
+        // Set up Floating Action Button
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("JONAS Current Frag", String.valueOf(navController.getCurrentDestination().getLabel()));
+
+                //Set FAB Actions
+                if (navController.getCurrentDestination().getLabel().toString().compareTo("Scan")==0) {
+                    // Home Fragment
+                    Snackbar snackbar = Snackbar.make(view, getString(R.string.scan_instructions), Snackbar.LENGTH_INDEFINITE)
+                            .setAction("HIDE", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                }
+                            });
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setMaxLines(10);
+                    snackbar.show();
+                } else if (navController.getCurrentDestination().getLabel().toString().compareTo("Analyze")==0) {
+                    // Analyze Fragment
+                    Snackbar snackbar = Snackbar.make(view, getString(R.string.analyze_page), Snackbar.LENGTH_INDEFINITE)
+                            .setAction("HIDE", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                }
+                            });
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setMaxLines(10);
+                    snackbar.show();
+
+                }
+
+            }
+        });
+
     }
 
     @Override
