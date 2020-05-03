@@ -32,7 +32,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import pkg.es96a_app.R;
 
-public class HistoryFragment extends Fragment {
+public class Historyfragment extends Fragment {
 
     private HistoryViewModel historyViewModel;
     public TextView crates;

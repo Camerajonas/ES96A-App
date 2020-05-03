@@ -1,5 +1,6 @@
 package pkg.es96a_app.ui.home;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -11,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import okhttp3.Call;
@@ -69,9 +74,30 @@ public class HomeFragment extends Fragment {
             .url(url)
             .build();
 
+    String personName = "";
+    String personGivenName = "";
+    String personFamilyName = "";
+    String personEmail = "";
+    String personId = "";
+    Uri personPhoto;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        // get user account information
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(Objects.requireNonNull(getActivity()));
+        if (acct != null) {
+            personName = acct.getDisplayName();
+            personGivenName = acct.getGivenName();
+            personFamilyName = acct.getFamilyName();
+            personEmail = acct.getEmail();
+            personId = acct.getId();
+            personPhoto = acct.getPhotoUrl();
+        }
+
+        // test to see if the email is coming through correctly
+        Log.d("Email", personEmail);
 
         // instantiate mostRecentDate outside of repeated code
         try {
