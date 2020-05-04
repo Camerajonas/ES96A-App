@@ -1,5 +1,6 @@
 <resources>
     <!-- Server Name -->
+    <!--Winston-->
     <string name="server_client_id">541978987319-47kadfah8brj041j76pad8tolm21ivl5.apps.googleusercontent.com</string>
 
     <!-- Navigation -->
