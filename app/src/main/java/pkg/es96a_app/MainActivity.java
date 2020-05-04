@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -47,14 +48,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import pkg.es96a_app.ui.home.HomeFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener /*, NavigationView.OnNavigationItemSelectedListener*/{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // declaring global variables here perhaps?
     private static final String TAG = "MainActivity";
     private static final int RC_SIGN_IN = 9001;
     private AppBarConfiguration mAppBarConfiguration;
     public GoogleSignInClient mGoogleSignInClient;
-    private FirebaseAuth mAuth;
 
     // these override the methods of the inherited activity
     @Override
@@ -78,6 +78,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        // Set up Floating Action Button
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("JONAS Current Frag", String.valueOf(navController.getCurrentDestination().getLabel()));
+
+                //Set FAB Actions
+                if (navController.getCurrentDestination().getLabel().toString().compareTo("Scan")==0) {
+                    // Home Fragment
+                    Snackbar snackbar = Snackbar.make(view, getString(R.string.scan_instructions), Snackbar.LENGTH_INDEFINITE)
+                            .setAction("HIDE", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                }
+                            });
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setMaxLines(10);
+                    snackbar.show();
+                } else if (navController.getCurrentDestination().getLabel().toString().compareTo("Analyze")==0) {
+                    // Analyze Fragment
+                    Snackbar snackbar = Snackbar.make(view, getString(R.string.analyze_page), Snackbar.LENGTH_INDEFINITE)
+                            .setAction("HIDE", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                }
+                            });
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                    textView.setMaxLines(10);
+                    snackbar.show();
+
+                }
+
+            }
+        });
+
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -87,29 +125,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        mAuth = FirebaseAuth.getInstance();
 
         // add Google sign-in and regular sign-out buttons
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success
-                            FirebaseUser user = mAuth.getCurrentUser();
-                        } else {
-                            // Sign in failed
-                        }
-                    }
-                });
     }
 
     public void signOut() {
@@ -160,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            firebaseAuthWithGoogle(account);
             updateUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
@@ -206,45 +224,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signOut();
                 break;
         }
-
-        // Set up Floating Action Button
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("JONAS Current Frag", String.valueOf(navController.getCurrentDestination().getLabel()));
-
-                //Set FAB Actions
-                if (navController.getCurrentDestination().getLabel().toString().compareTo("Scan")==0) {
-                    // Home Fragment
-                    Snackbar snackbar = Snackbar.make(view, getString(R.string.scan_instructions), Snackbar.LENGTH_INDEFINITE)
-                            .setAction("HIDE", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                }
-                            });
-                    View snackbarView = snackbar.getView();
-                    TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                    textView.setMaxLines(10);
-                    snackbar.show();
-                } else if (navController.getCurrentDestination().getLabel().toString().compareTo("Analyze")==0) {
-                    // Analyze Fragment
-                    Snackbar snackbar = Snackbar.make(view, getString(R.string.analyze_page), Snackbar.LENGTH_INDEFINITE)
-                            .setAction("HIDE", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                }
-                            });
-                    View snackbarView = snackbar.getView();
-                    TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                    textView.setMaxLines(10);
-                    snackbar.show();
-
-                }
-
-            }
-        });
-
     }
 
     @Override
