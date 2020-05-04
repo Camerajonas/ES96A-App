@@ -42,8 +42,9 @@ public class HistoryFragment extends Fragment {
     public TextView crates;
 
     //instantiate the stuff we want to display
-    public ArrayList<String> birthplace = new ArrayList<String>();
+    public ArrayList<String> scan_id = new ArrayList<String>();
     public ArrayList<String> time = new ArrayList<String>();
+    public ArrayList<String> days = new ArrayList<String>();
     JSONArray raw;
 
     // instantiate client
@@ -140,17 +141,24 @@ public class HistoryFragment extends Fragment {
 //                        }
 //                    };
 //                    mainHandler.post(myRunnable);
-
-                        for (int i = 0; i < jData.length(); i++) {
+                        //first 50 avocados only
+                        for (int i = 0; i < 49; i++) {
 
                             JSONObject JO = (JSONObject) jData.get(i);
+                            JSONArray data = JO.getJSONArray("data");
+                            JSONObject day = data.getJSONObject(0);
 
-                            if (JO.has("birthplace")) {
-                                birthplace.add(JO.get("birthplace").toString());
+
+                            if (JO.has("scan_id") && day.has("days")) {
+                                scan_id.add(JO.get("scan_id").toString());
                                 time.add(JO.get("time").toString());
+
+                                Log.d("days", day.get("days").toString());
+                                days.add(day.get("days").toString());
+
                             }
                         }
-                        Log.v("inside", String.valueOf(birthplace.size()));
+                        Log.v("inside", String.valueOf(scan_id.size()));
 
                         // Run on the main thread
                         getActivity().runOnUiThread(new Runnable() {
@@ -174,13 +182,13 @@ public class HistoryFragment extends Fragment {
 
 
     public void init(){
-        Log.d("String", Arrays.toString(birthplace.toArray()));
+        Log.d("String", Arrays.toString(scan_id.toArray()));
         // Find the table and sets it to table 1
         TableLayout table1 = (TableLayout) getView().findViewById(R.id.table1);
 
         //instantiate a tablerow and column
         TableRow [] row = new TableRow[time.size()];
-        TextView [] col = new TextView [2]; //The size is dependent on # of columns
+        TextView [] col = new TextView [3]; //The size is dependent on # of columns
 
         //Create the tablerows
         for(int i =0; i< row.length; i++ ){
@@ -190,21 +198,25 @@ public class HistoryFragment extends Fragment {
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT));
 
-            //This sets the text to the header
-
+            //This sets the text for an entire row
             for (int j = 0; j < col.length; j++ ) {
                 col [j] = new TextView(getContext());
                 if(j == 0) {
-                    col[j].setText(birthplace.get(i));
+                    col[j].setText(scan_id.get(i));
+                }else if(j == 1){
+                    col[j].setText(days.get(i));
                 }else{
                     col[j].setText(time.get(i));
                 }
                 col [j].setPadding(5, 5, 5, 5);
+                if (i % 2 != 0){
+                    col[j].setBackgroundColor(Color.rgb(213,255,204));
+                }
                 row[i].addView(col[j]);
 
             }
 
-            //Set the header to the table
+            //Set the row to the table
             table1.addView(row[i], new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT));
