@@ -77,7 +77,6 @@ public class HomeFragment extends Fragment {
             .url(url)
             .build();
 
-    String personName = "";
     String personGivenName = "";
     String personFamilyName = "";
     String personEmail = "";
@@ -91,7 +90,7 @@ public class HomeFragment extends Fragment {
         // get user account information
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(Objects.requireNonNull(getActivity()));
         if (acct != null) {
-            personName = acct.getDisplayName();
+            username = acct.getDisplayName();
             personGivenName = acct.getGivenName();
             personFamilyName = acct.getFamilyName();
             personEmail = acct.getEmail();
@@ -100,7 +99,7 @@ public class HomeFragment extends Fragment {
         }
 
         // test to see if the email is coming through correctly
-        Log.d("Email", personEmail);
+        Log.d("Email", username);
 
         // instantiate mostRecentDate outside of repeated code
         mostRecentDate = new Date();
